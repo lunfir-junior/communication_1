@@ -1,7 +1,5 @@
 #include "QDebug"
 #include "IPv4Address.h"
-//^(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))$
-
 
 IPv4Address::IPv4Address(QString address, QObject *parent) : QObject(parent)
 {
