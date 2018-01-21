@@ -3,20 +3,65 @@
 
 IPv4Address::IPv4Address(QString address, QObject *parent) : QObject(parent)
 {
-  QRegularExpressionMatch match;
+  qDebug() << __PRETTY_FUNCTION__;
+  Q_UNUSED(parent);
 
-  m_ipRegExp = new QRegularExpression("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
+  try {
+    m_ipAddress = new QHostAddress(address);
+    qDebug() << "ip address: " << m_ipAddress->toString();
+  }
+  catch(IllegalArgumentException exc) {
+    Q_UNUSED(exc);
+    qDebug() << "IllegalArgumentException!!";
+  }
+}
 
-  match = m_ipRegExp->QRegularExpression::match(&address);
+IPv4Address::IPv4Address(quint32 address, QObject *parent)
+{
+  qDebug() << __PRETTY_FUNCTION__;
+  Q_UNUSED(parent);
 
-  qDebug() << ( match.hasMatch() ? "matched  " : "dismatched  " ) << address;
+  try {
+    m_ipAddress = new QHostAddress(address);
+    qDebug() << "ip address: " << m_ipAddress->toString();
+  }
+  catch(IllegalArgumentException exc) {
+    Q_UNUSED(exc);
+    qDebug() << "IllegalArgumentException!!";
+  }
 
-//  delete *match;
 }
 
 IPv4Address::~IPv4Address() {
+  if ( m_ipAddress )
+    delete m_ipAddress;
 
-  delete m_ipRegExp;
+  qDebug() << __PRETTY_FUNCTION__;
+}
+
+bool IPv4Address::lessThan(IPv4Address *address)
+{
+  return (this->toLong() < address->toLong());
+}
+
+bool IPv4Address::greaterThan(IPv4Address *address)
+{
+  return (this->toLong() > address->toLong());
+}
+
+bool IPv4Address::equals(IPv4Address *address)
+{
+  return (this->toString() == address->toString());
+}
+
+QString IPv4Address::toString()
+{
+  return m_ipAddress->QHostAddress::toString();
+}
+
+quint32 IPv4Address::toLong()
+{
+ return m_ipAddress->QHostAddress::toIPv4Address();
 }
 
 

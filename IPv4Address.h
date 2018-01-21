@@ -12,21 +12,20 @@ class IPv4Address : public QObject
     Q_OBJECT
 
   public:
-    explicit IPv4Address(QString i_address, QObject *parent = nullptr);
-    explicit IPv4Address(long i_address, QObject *parent = nullptr);
+    explicit IPv4Address(QString address, QObject *parent = nullptr);
+    explicit IPv4Address(quint32 address, QObject *parent = nullptr);
 
     virtual ~IPv4Address();
 
-    bool lessThan(IPv4Address i_address);
-    bool greaterThan(IPv4Address i_address);
-    bool equals(IPv4Address i_address);
+    bool lessThan(IPv4Address *address);
+    bool greaterThan(IPv4Address *address);
+    bool equals(IPv4Address *address);
 
     QString toString();
-    long toLong();
+    quint32 toLong();
 
   private:
-    QRegularExpression *m_ipRegExp;
-    QHostAddress m_ipAddress;
+    QHostAddress *m_ipAddress;
 
   signals:
 
