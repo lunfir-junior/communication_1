@@ -1,6 +1,7 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include "IPv4Address.h"
+#include "Network.h"
 
 int main(int argc, char *argv[])
 {
