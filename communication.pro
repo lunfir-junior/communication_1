@@ -10,7 +10,8 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES += main.cpp \
-    IPv4Address.cpp
+    IPv4Address.cpp \
+    Network.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -25,4 +26,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
     IPv4Address.h \
+<<<<<<< HEAD
     IllegalArgumentException.h
+=======
+    IllegalArgumentException.h \
+    Network.h
+>>>>>>> 5b9e3cb549db965a5a7a457bcdf5b29beb6b472b
