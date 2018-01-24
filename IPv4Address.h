@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QRegularExpression>
 #include <QtNetwork>
-#include <QHostAddress>
+//#include <QHostAddress>
 #include "IllegalArgumentException.h"
 
 class IPv4Address : public QObject

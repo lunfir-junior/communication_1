@@ -6,13 +6,20 @@ IPv4Address::IPv4Address(QString address, QObject *parent) : QObject(parent)
   qDebug() << __PRETTY_FUNCTION__;
   Q_UNUSED(parent);
 
+//  QByteArray test = address.toUtf8();
+//  qDebug() << "from test: " << test;
+//  qDebug() << "test len: " << test.size();
+
   try {
-    m_ipAddress = new QHostAddress(address);
-    qDebug() << "ip address: " << m_ipAddress->toString();
+    if ( address.isEmpty() || address.isNull() ) {
+      throw new IllegalArgumentException();
+    }
+
+//    m_ipAddress = new QHostAddress(address);
+//    qDebug() << "ip address: " << m_ipAddress->toString();
   }
-  catch(IllegalArgumentException exc) {
-    Q_UNUSED(exc);
-    qDebug() << "IllegalArgumentException!!";
+  catch(IllegalArgumentException &exc) {
+    qDebug() << exc.what() << "  IllegalArgumentException!!";
   }
 }
 

@@ -7,8 +7,9 @@
 class Network : public QObject
 {
     Q_OBJECT
+
   public:
-    explicit Network(Pv4Address address, int maskLength, QObject *parent = nullptr);
+    explicit Network(IPv4Address address, int maskLength, QObject *parent = nullptr);
 
     virtual ~Network();
 
@@ -23,6 +24,8 @@ class Network : public QObject
     QVector<Network> getSubnets(); // produce two half-sized subnets
     long getTotalHosts(); // excluding network and broadcast
     bool isPublic();
+
+  private:
 
   signals:
 
