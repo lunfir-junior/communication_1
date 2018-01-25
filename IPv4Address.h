@@ -26,6 +26,7 @@ class IPv4Address : public QObject
 
   private:
     QHostAddress *m_ipAddress;
+    QByteArray m_byte;
 
   signals:
 
