@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    IPv4Address *ip = new IPv4Address("127.0.45.22");
+    IPv4Address *ip = new IPv4Address("127.1.5.22");
 //    qDebug() << ip->toString();  // 127.12.45.22
 //    qDebug() << ip->toLong();    // 2131504406
 

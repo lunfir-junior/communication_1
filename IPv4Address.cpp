@@ -10,29 +10,29 @@ IPv4Address::IPv4Address(QString address, QObject *parent) : QObject(parent)
 
   try {
     if ( address.isEmpty() || address.isNull() ) {
-      throw IllegalArgumentException();
+      throw IllegalArgumentException("null exception");
     }
 
     tmp = address.split('.');
     tmpLen = tmp.size();
 
     if ( tmpLen != 4 ) {
-      throw IllegalArgumentException();
+      throw IllegalArgumentException("size exception");
     }
 
     foreach ( const QString &str, tmp ) {
       int octet = str.toInt();
 
       if ( octet < 0 || octet > 255 ) {
-        throw IllegalArgumentException();
+        throw IllegalArgumentException("out of range exception");
       }
     }
 
-    foreach (const QString &str, tmp) {
-      m_byte.append(str.toUtf8());
-    }
+//    foreach (const QString &str, tmp) {
+//      m_byte.append(str.toUtf8());
+//    }
 
-    qDebug() << m_byte;
+//    qDebug() << m_byte;
   }
   catch(IllegalArgumentException &exc) {
     qDebug() << exc.what();
@@ -56,8 +56,6 @@ IPv4Address::IPv4Address(quint32 address, QObject *parent)
 }
 
 IPv4Address::~IPv4Address() {
-//  if ( m_ipAddress )
-//    delete m_ipAddress;
 
   qDebug() << __PRETTY_FUNCTION__;
 }

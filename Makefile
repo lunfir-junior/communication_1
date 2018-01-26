@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_NETWORK_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -I../../Qt/5.9.1/gcc_64/include -I../../Qt/5.9.1/gcc_64/include/QtNetwork -I../../Qt/5.9.1/gcc_64/include/QtCore -I. -I../../Qt/5.9.1/gcc_64/mkspecs/linux-g++
+INCPATH       = -I. -I../../Qt/5.9.1/gcc_64/include -I../../Qt/5.9.1/gcc_64/include/QtGui -I../../Qt/5.9.1/gcc_64/include/QtNetwork -I../../Qt/5.9.1/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I../../Qt/5.9.1/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/machine/Qt/5.9.1/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -38,7 +38,7 @@ DISTNAME      = communication1.0.0
 DISTDIR = /home/machine/QT_proj/communication_1/.tmp/communication1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/machine/Qt/5.9.1/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/home/machine/Qt/5.9.1/gcc_64/lib -lQt5Network -lQt5Core -lpthread 
+LIBS          = $(SUBLIBS) -L/home/machine/Qt/5.9.1/gcc_64/lib -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -208,6 +208,7 @@ DIST          = ../../Qt/5.9.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/qt.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/resources.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/moc.prf \
+		../../Qt/5.9.1/gcc_64/mkspecs/features/unix/opengl.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/unix/thread.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/qmake_use.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/file_copies.prf \
@@ -215,7 +216,8 @@ DIST          = ../../Qt/5.9.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/exceptions.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/yacc.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/lex.prf \
-		communication.pro IPv4Address.h main.cpp \
+		communication.pro IPv4Address.h \
+		IllegalArgumentException.h main.cpp \
 		IPv4Address.cpp
 QMAKE_TARGET  = communication
 DESTDIR       = 
@@ -381,6 +383,7 @@ Makefile: communication.pro ../../Qt/5.9.1/gcc_64/mkspecs/linux-g++/qmake.conf .
 		../../Qt/5.9.1/gcc_64/mkspecs/features/qt.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/resources.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/moc.prf \
+		../../Qt/5.9.1/gcc_64/mkspecs/features/unix/opengl.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/unix/thread.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/qmake_use.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/file_copies.prf \
@@ -389,6 +392,7 @@ Makefile: communication.pro ../../Qt/5.9.1/gcc_64/mkspecs/linux-g++/qmake.conf .
 		../../Qt/5.9.1/gcc_64/mkspecs/features/yacc.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/features/lex.prf \
 		communication.pro \
+		../../Qt/5.9.1/gcc_64/lib/libQt5Gui.prl \
 		../../Qt/5.9.1/gcc_64/lib/libQt5Network.prl \
 		../../Qt/5.9.1/gcc_64/lib/libQt5Core.prl
 	$(QMAKE) -o Makefile communication.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
@@ -545,6 +549,7 @@ Makefile: communication.pro ../../Qt/5.9.1/gcc_64/mkspecs/linux-g++/qmake.conf .
 ../../Qt/5.9.1/gcc_64/mkspecs/features/qt.prf:
 ../../Qt/5.9.1/gcc_64/mkspecs/features/resources.prf:
 ../../Qt/5.9.1/gcc_64/mkspecs/features/moc.prf:
+../../Qt/5.9.1/gcc_64/mkspecs/features/unix/opengl.prf:
 ../../Qt/5.9.1/gcc_64/mkspecs/features/unix/thread.prf:
 ../../Qt/5.9.1/gcc_64/mkspecs/features/qmake_use.prf:
 ../../Qt/5.9.1/gcc_64/mkspecs/features/file_copies.prf:
@@ -553,6 +558,7 @@ Makefile: communication.pro ../../Qt/5.9.1/gcc_64/mkspecs/linux-g++/qmake.conf .
 ../../Qt/5.9.1/gcc_64/mkspecs/features/yacc.prf:
 ../../Qt/5.9.1/gcc_64/mkspecs/features/lex.prf:
 communication.pro:
+../../Qt/5.9.1/gcc_64/lib/libQt5Gui.prl:
 ../../Qt/5.9.1/gcc_64/lib/libQt5Network.prl:
 ../../Qt/5.9.1/gcc_64/lib/libQt5Core.prl:
 qmake: FORCE
@@ -570,7 +576,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../Qt/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents IPv4Address.h $(DISTDIR)/
+	$(COPY_FILE) --parents IPv4Address.h IllegalArgumentException.h $(DISTDIR)/
 	$(COPY_FILE) --parents main.cpp IPv4Address.cpp $(DISTDIR)/
 
 
@@ -848,11 +854,12 @@ moc_IPv4Address.cpp: ../../Qt/5.9.1/gcc_64/include/QtCore/QObject \
 		../../Qt/5.9.1/gcc_64/include/QtNetwork/qsslkey.h \
 		../../Qt/5.9.1/gcc_64/include/QtNetwork/qudpsocket.h \
 		../../Qt/5.9.1/gcc_64/include/QtNetwork/qtnetworkversion.h \
-		../../Qt/5.9.1/gcc_64/include/QtNetwork/QHostAddress \
+		IllegalArgumentException.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QException \
 		IPv4Address.h \
 		moc_predefs.h \
 		../../Qt/5.9.1/gcc_64/bin/moc
-	/home/machine/Qt/5.9.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/machine/Qt/5.9.1/gcc_64/mkspecs/linux-g++ -I/home/machine/QT_proj/communication_1 -I/home/machine/Qt/5.9.1/gcc_64/include -I/home/machine/Qt/5.9.1/gcc_64/include/QtNetwork -I/home/machine/Qt/5.9.1/gcc_64/include/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include IPv4Address.h -o moc_IPv4Address.cpp
+	/home/machine/Qt/5.9.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/machine/Qt/5.9.1/gcc_64/mkspecs/linux-g++ -I/home/machine/QT_proj/communication_1 -I/home/machine/Qt/5.9.1/gcc_64/include -I/home/machine/Qt/5.9.1/gcc_64/include/QtGui -I/home/machine/Qt/5.9.1/gcc_64/include/QtNetwork -I/home/machine/Qt/5.9.1/gcc_64/include/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include IPv4Address.h -o moc_IPv4Address.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -915,24 +922,25 @@ main.o: main.cpp ../../Qt/5.9.1/gcc_64/include/QtCore/QCoreApplication \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qeventloop.h \
-		IPv4Address.h \
-		../../Qt/5.9.1/gcc_64/include/QtCore/QObject \
-		../../Qt/5.9.1/gcc_64/include/QtCore/QRegularExpression \
-		../../Qt/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
-		../../Qt/5.9.1/gcc_64/include/QtCore/qshareddata.h \
-		../../Qt/5.9.1/gcc_64/include/QtCore/qhash.h \
-		../../Qt/5.9.1/gcc_64/include/QtCore/qvariant.h \
-		../../Qt/5.9.1/gcc_64/include/QtCore/qmap.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QDebug \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qhash.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmap.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qtextstream.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qiodevice.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qshareddata.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qvector.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qpoint.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qset.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		IPv4Address.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QObject \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QRegularExpression \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qregularexpression.h \
 		../../Qt/5.9.1/gcc_64/include/QtNetwork/QtNetwork \
 		../../Qt/5.9.1/gcc_64/include/QtNetwork/QtNetworkDepends \
 		../../Qt/5.9.1/gcc_64/include/QtCore/QtCore \
@@ -1110,7 +1118,9 @@ main.o: main.cpp ../../Qt/5.9.1/gcc_64/include/QtCore/QCoreApplication \
 		../../Qt/5.9.1/gcc_64/include/QtNetwork/qsslkey.h \
 		../../Qt/5.9.1/gcc_64/include/QtNetwork/qudpsocket.h \
 		../../Qt/5.9.1/gcc_64/include/QtNetwork/qtnetworkversion.h \
-		../../Qt/5.9.1/gcc_64/include/QtNetwork/QHostAddress
+		IllegalArgumentException.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QException \
+		Network.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 IPv4Address.o: IPv4Address.cpp ../../Qt/5.9.1/gcc_64/include/QtCore/QDebug \
@@ -1357,7 +1367,8 @@ IPv4Address.o: IPv4Address.cpp ../../Qt/5.9.1/gcc_64/include/QtCore/QDebug \
 		../../Qt/5.9.1/gcc_64/include/QtNetwork/qsslkey.h \
 		../../Qt/5.9.1/gcc_64/include/QtNetwork/qudpsocket.h \
 		../../Qt/5.9.1/gcc_64/include/QtNetwork/qtnetworkversion.h \
-		../../Qt/5.9.1/gcc_64/include/QtNetwork/QHostAddress
+		IllegalArgumentException.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QException
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o IPv4Address.o IPv4Address.cpp
 
 moc_IPv4Address.o: moc_IPv4Address.cpp 
