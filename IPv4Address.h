@@ -13,7 +13,7 @@ class IPv4Address : public QObject
 
   public:
     explicit IPv4Address(QString address, QObject *parent = nullptr);
-    explicit IPv4Address(quint32 address, QObject *parent = nullptr);
+    explicit IPv4Address(qlonglong address, QObject *parent = nullptr);
 
     virtual ~IPv4Address();
 
@@ -25,8 +25,8 @@ class IPv4Address : public QObject
     quint32 toLong();
 
   private:
-    QHostAddress *m_ipAddress;
-    QByteArray m_byte;
+    quint32 m_address;
+    void stringValidate(QString &addr);
 
   signals:
 
