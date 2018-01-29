@@ -9,18 +9,14 @@ IPv4Address::IPv4Address(QString address, QObject *parent) : QObject(parent)
 
   try {
     stringValidate(address);
+    QStringList temp = address.split('.');
 
-    unsigned char bytes[4];
-    bytes[0] = 2131504406 & 0xFF;
-    bytes[1] = (2131504406 >> 8) & 0xFF;
-    bytes[2] = (2131504406 >> 16) & 0xFF;
-    bytes[3] = (2131504406 >> 24) & 0xFF;
-    qDebug() << bytes[3];
-    qDebug() << bytes[2];
-    qDebug() << bytes[1];
-    qDebug() << bytes[0];
-
+    m_address = 0;
+    for ( int i = 3, j = 0; i >= 0; i--, j += 8 ) {
+      m_address += (temp[i].toInt() << j);
+    }
   }
+
   catch(IllegalArgumentException &exc) {
     qDebug() << exc.what();
   }
@@ -36,40 +32,55 @@ IPv4Address::IPv4Address(qlonglong address, QObject *parent)
       throw IllegalArgumentException("overflow exception");
 
     m_address = address;
-  } catch (IllegalArgumentException &exc) {
+  }
+
+  catch (IllegalArgumentException &exc) {
     qDebug() << exc.what();
   }
 
 }
 
-IPv4Address::~IPv4Address() {
-
+IPv4Address::~IPv4Address()
+{
   qDebug() << __PRETTY_FUNCTION__;
 }
 
 bool IPv4Address::lessThan(IPv4Address *address)
 {
-  return true;
+  return m_address < address->toLong();
 }
 
 bool IPv4Address::greaterThan(IPv4Address *address)
 {
-  return true;
+  return m_address > address->toLong();
 }
 
 bool IPv4Address::equals(IPv4Address *address)
 {
-  return true;
+  return m_address == address->toLong();
 }
 
 QString IPv4Address::toString()
 {
-  return QString("1111");
+  QString output;
+  std::array<int, 4> bytes;
+
+  for ( int i = 0, j = 0; i < 4; i++, j += 8 ) {
+    bytes[i] = (m_address >> j) & 0xFF;
+  }
+
+  for ( int i = 3 ; i > 0; i-- ) {
+    output.append(QString::number(bytes[i]));
+    output.append('.');
+  }
+  output.append(QString::number(bytes[0]));
+
+  return output;
 }
 
 quint32 IPv4Address::toLong()
 {
- return 23;
+ return m_address;
 }
 
 void IPv4Address::stringValidate(QString &addr)
