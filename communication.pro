@@ -1,4 +1,4 @@
-QT += core network
+QT += core network testlib
 QT += gui
 
 CONFIG += c++11
@@ -12,6 +12,7 @@ TEMPLATE = app
 SOURCES += main.cpp \
     IPv4Address.cpp \
     #Network.cpp
+    Test/IPv4AddressTest.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -28,3 +29,4 @@ HEADERS += \
     IPv4Address.h \
     IllegalArgumentException.h \
     #Network.h \
+    Test/IPv4AddressTest.h
