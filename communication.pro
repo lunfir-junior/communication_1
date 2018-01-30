@@ -1,17 +1,16 @@
-QT += core network testlib
-QT += gui
+QT += testlib
+QT -= gui
 
-CONFIG += c++11
+CONFIG += c++11 console
+CONFIG -= app_bundle
 
 TARGET = communication
-CONFIG += console
-CONFIG -= app_bundle
 
 TEMPLATE = app
 
 SOURCES += main.cpp \
     IPv4Address.cpp \
-    #Network.cpp
+    Network.cpp
     Test/IPv4AddressTest.cpp
 
 # The following define makes your compiler emit warnings if you use
@@ -28,5 +27,5 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     IPv4Address.h \
     IllegalArgumentException.h \
-    #Network.h \
+    Network.h \
     Test/IPv4AddressTest.h

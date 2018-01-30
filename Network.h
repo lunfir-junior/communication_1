@@ -26,6 +26,7 @@ class Network : public QObject
     bool isPublic();
 
   private:
+    quint32 m_mask;
 
   signals:
 

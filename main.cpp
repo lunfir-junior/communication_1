@@ -9,11 +9,9 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
-    IPv4AddressTest *ipv4Test = new IPv4AddressTest();
+  QCoreApplication a(argc, argv);
 
-     QTest::qExec(ipv4Test, argc, argv);
+  QTest::qExec(new IPv4AddressTest, argc, argv);
 
-     delete ipv4Test;
-    return a.exec();
+  return a.exec();
 }
