@@ -18,7 +18,7 @@ class Network : public QObject
     virtual ~Network();
 
 //    bool contains(IPv4Address address);
-    IPv4Address *getAddress();
+    IPv4Address getAddress();
 //    IPv4Address *getBroadcastAddress();
 //    IPv4Address getFirstUsableAddress();
 //    IPv4Address getLastUsableAddress();

@@ -15,11 +15,13 @@ int main(int argc, char *argv[])
 //  qDebug() << test->toString();
 
   Network *net = new Network(test, 24);
-  qDebug() << net->getAddress()->toString();         // 192.168.0.0
+
+  qDebug() << net->getAddress().toString();         // 192.168.0.0
+
 //  qDebug() << net->getBroadcastAddress()->toString();// 192.168.0.255
 
-//  delete nt;
-//  delete test;
+  delete net;
+  delete test;
 
 //  QTest::qExec(new IPv4AddressTest, argc, argv);
 
