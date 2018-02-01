@@ -22,7 +22,7 @@ IPv4Address::IPv4Address(QString address, QObject *parent) : QObject(parent)
   }
 }
 
-IPv4Address::IPv4Address(qlonglong address, QObject *parent)
+IPv4Address::IPv4Address(qlonglong address, QObject *parent) : QObject(parent)
 {
   qDebug() << __PRETTY_FUNCTION__;
   Q_UNUSED(parent);
@@ -37,6 +37,13 @@ IPv4Address::IPv4Address(qlonglong address, QObject *parent)
   catch (IllegalArgumentException &exc) {
     qDebug() << exc.what();
   }
+
+}
+
+IPv4Address::IPv4Address(const IPv4Address& other)
+  : QObject(other.parent()),
+    m_address(other.toLong())
+{
 
 }
 
@@ -60,13 +67,14 @@ bool IPv4Address::equals(IPv4Address *address)
   return m_address == address->toLong();
 }
 
-QString IPv4Address::toString()
+QString IPv4Address::toString() const
 {
   QString output;
+  quint32 tmp_address = m_address;
   std::array<int, 4> bytes;
 
   for ( int i = 0, j = 0; i < 4; i++, j += 8 ) {
-    bytes[i] = (m_address >> j) & 0xFF;
+    bytes[i] = (tmp_address >> j) & 0xFF;
   }
 
   for ( int i = 3 ; i > 0; i-- ) {
@@ -78,9 +86,16 @@ QString IPv4Address::toString()
   return output;
 }
 
-quint32 IPv4Address::toLong()
+quint32 IPv4Address::toLong() const
 {
  return m_address;
+}
+
+IPv4Address& IPv4Address::operator=(IPv4Address* other)
+{
+  this->m_address = other->toLong();
+
+  return *this;
 }
 
 void IPv4Address::stringValidate(QString &addr)

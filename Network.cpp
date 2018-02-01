@@ -23,6 +23,8 @@ Network::Network(IPv4Address *address, int maskLength, QObject *parent) : QObjec
 
 Network::~Network()
 {
+  qDebug() << __PRETTY_FUNCTION__;
+
   delete m_address;
 }
 
@@ -31,15 +33,15 @@ Network::~Network()
 
 //}
 
-IPv4Address *Network::getAddress()
+IPv4Address Network::getAddress()
 {
-  return new IPv4Address(m_address->toLong() & m_prefix);
+  return IPv4Address(m_address->toLong() & m_prefix);
 }
 
-IPv4Address *Network::getBroadcastAddress()
-{
-  return new IPv4Address((m_address->toLong() & m_prefix) + m_prefix + 256);
-}
+//IPv4Address *Network::getBroadcastAddress()
+//{
+//  return new IPv4Address((m_address->toLong() & m_prefix) + m_prefix + 256);
+//}
 
 //IPv4Address Network::getFirstUsableAddress()
 //{
