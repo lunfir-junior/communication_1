@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
   Network *net = new Network(test, 24);
   qDebug() << net->getAddress()->toString();         // 192.168.0.0
-  qDebug() << net->getBroadcastAddress()->toString();// 192.168.0.255
+//  qDebug() << net->getBroadcastAddress()->toString();// 192.168.0.255
 
 //  delete nt;
 //  delete test;

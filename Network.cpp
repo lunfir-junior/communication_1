@@ -36,10 +36,10 @@ IPv4Address *Network::getAddress()
   return new IPv4Address(m_address->toLong() & m_prefix);
 }
 
-IPv4Address *Network::getBroadcastAddress()
-{
-  return new IPv4Address((m_address->toLong() & m_prefix) + m_prefix + 256);
-}
+//IPv4Address *Network::getBroadcastAddress()
+//{
+//  return new IPv4Address((m_address->toLong() & m_prefix) + m_prefix + 256);
+//}
 
 //IPv4Address Network::getFirstUsableAddress()
 //{
