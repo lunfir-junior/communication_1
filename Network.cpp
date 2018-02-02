@@ -14,11 +14,12 @@ Network::Network(IPv4Address *address, int maskLength, QObject *parent) : QObjec
     invertBytes += qPow(2, i);
   }
 
+  m_maskLen = maskLength;
   m_prefix = UINT32_MAX - invertBytes;
-  qDebug() << "m_mask: " << m_prefix;
-  qDebug() << this->getMaskString();
-
-  m_address = address;
+//  qDebug() << "m_prefix: " << m_prefix;
+  m_host = ~m_prefix;
+  m_address = new IPv4Address(address->toLong() & m_prefix);
+  m_broadcast = new IPv4Address(m_address->toLong() | m_host);
 }
 
 Network::~Network()
@@ -26,32 +27,34 @@ Network::~Network()
   qDebug() << __PRETTY_FUNCTION__;
 
   delete m_address;
+  delete m_broadcast;
 }
 
-//bool Network::contains(IPv4Address address)
-//{
-
-//}
+bool Network::contains(IPv4Address *address)
+{
+  return ( (address->toLong() >= m_address->toLong()) &&
+           (address->toLong() <= m_broadcast->toLong()) );
+}
 
 IPv4Address Network::getAddress()
 {
-  return IPv4Address(m_address->toLong() & m_prefix);
+  return *m_address;
 }
 
-//IPv4Address *Network::getBroadcastAddress()
-//{
-//  return new IPv4Address((m_address->toLong() & m_prefix) + m_prefix + 256);
-//}
+IPv4Address Network::getBroadcastAddress()
+{
+  return *m_broadcast;
+}
 
-//IPv4Address Network::getFirstUsableAddress()
-//{
+IPv4Address Network::getFirstUsableAddress()
+{
+  return IPv4Address(m_address->toLong() + 1);
+}
 
-//}
-
-//IPv4Address Network::getLastUsableAddress()
-//{
-
-//}
+IPv4Address Network::getLastUsableAddress()
+{
+  return IPv4Address(m_broadcast->toLong() - 1);
+}
 
 quint32 Network::getMask()
 {
@@ -76,10 +79,10 @@ QString Network::getMaskString()
   return output;
 }
 
-//int Network::getMaskLength()
-//{
-
-//}
+int Network::getMaskLength()
+{
+  return m_maskLen;
+}
 
 //QVector<Network> Network::getSubnets() // produce two half-sized subnets
 //{
@@ -91,7 +94,9 @@ QString Network::getMaskString()
 
 //}
 
-//bool Network::isPublic()
-//{
-
-//}
+bool Network::isPublic()
+{
+  return ( (m_address->toString() == "10.0.0.0" && m_maskLen == 8) ||
+           (m_address->toString() == "172.16.0.0" && m_maskLen == 12) ||
+           (m_address->toString() == "192.168.0.0" && m_maskLen == 16));
+}

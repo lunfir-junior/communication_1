@@ -17,21 +17,25 @@ class Network : public QObject
 
     virtual ~Network();
 
-//    bool contains(IPv4Address address);
+    bool contains(IPv4Address *address);
     IPv4Address getAddress();
-//    IPv4Address *getBroadcastAddress();
-//    IPv4Address getFirstUsableAddress();
-//    IPv4Address getLastUsableAddress();
+    IPv4Address getBroadcastAddress();
+    IPv4Address getFirstUsableAddress();
+    IPv4Address getLastUsableAddress();
     quint32 getMask();
     QString getMaskString();
-//    int getMaskLength();
+    int getMaskLength();
 //    QVector<Network> getSubnets(); // produce two half-sized subnets
 //    long getTotalHosts(); // excluding network and broadcast
-//    bool isPublic();
+    bool isPublic();
 
   private:
     quint32 m_prefix;
+    quint32 m_host;
+    int m_maskLen;
     IPv4Address *m_address;
+    IPv4Address *m_broadcast;
+
 
   signals:
 
