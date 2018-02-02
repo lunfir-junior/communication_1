@@ -15,12 +15,12 @@ class NetworkTest : public QObject
     ~NetworkTest();
 
   private:
-    Network *m_net;
-    IPv4Address *m_address;
+    Network *net_this;
+    IPv4Address *address_this;
 
   signals:
 
-  public slots:
+  private slots:
     void contains();
     void getAddress();
     void getBroadcastAddress();
