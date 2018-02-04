@@ -22,6 +22,17 @@ Network::Network(IPv4Address *address, int maskLength, QObject *parent) : QObjec
   m_broadcast = new IPv4Address(m_address->toLong() | m_host);
 }
 
+Network::Network(const Network &other)
+  : QObject(other.parent()),
+    m_prefix(other.getMask()),
+    m_host(other.getHost()),
+    m_maskLen(other.getMaskLength()),
+    m_address(other.getAddress()),
+    m_broadcast(other.getBroadcastAddress())
+{
+
+}
+
 Network::~Network()
 {
 //  qDebug() << __PRETTY_FUNCTION__;
@@ -36,14 +47,23 @@ bool Network::contains(IPv4Address *address)
            (address->toLong() <= m_broadcast->toLong()) );
 }
 
-IPv4Address Network::getAddress()
+QString Network::toString() const
 {
-  return *m_address;
+  QString res = m_address->toString();
+
+  res.append('/');
+  res.append(QString::number(m_maskLen));
+  return res;
 }
 
-IPv4Address Network::getBroadcastAddress()
+IPv4Address *Network::getAddress() const
 {
-  return *m_broadcast;
+  return m_address;
+}
+
+IPv4Address *Network::getBroadcastAddress() const
+{
+  return m_broadcast;
 }
 
 IPv4Address Network::getFirstUsableAddress()
@@ -56,12 +76,12 @@ IPv4Address Network::getLastUsableAddress()
   return IPv4Address(m_broadcast->toLong() - 1);
 }
 
-quint32 Network::getMask()
+quint32 Network::getMask() const
 {
  return m_prefix;
 }
 
-QString Network::getMaskString()
+QString Network::getMaskString() const
 {
   QString output;
   std::array<int, 4> bytes;
@@ -79,24 +99,45 @@ QString Network::getMaskString()
   return output;
 }
 
-int Network::getMaskLength()
+int Network::getMaskLength() const
 {
   return m_maskLen;
 }
 
-//QVector<Network> Network::getSubnets() // produce two half-sized subnets
-//{
+quint32 Network::getHost() const
+{
+  return m_host;
+}
 
-//}
+QVector<Network*> Network::getSubnets() // produce two half-sized subnets
+{
+  int newMaskLen = m_maskLen + qPow(2, 0);
+  QVector<Network*> res;
 
-//long Network::getTotalHosts() // excluding network and broadcast
-//{
+  res.append(new Network(m_address, newMaskLen));
 
-//}
+  return res;
+}
+
+long Network::getTotalHosts() // excluding network and broadcast
+{
+  return (qPow(2, (32 - m_maskLen)) - 2);
+}
 
 bool Network::isPublic()
 {
   return ( (m_address->toString() == "10.0.0.0" && m_maskLen == 8) ||
            (m_address->toString() == "172.16.0.0" && m_maskLen == 12) ||
            (m_address->toString() == "192.168.0.0" && m_maskLen == 16));
+}
+
+Network& Network::operator=(Network *other)
+{
+  this->m_address = other->getAddress();
+  this->m_broadcast = other->getBroadcastAddress();
+  this->m_maskLen = other->getMaskLength();
+  this->m_prefix = other->getMask();
+  this->m_host = other->getHost();
+
+  return *this;
 }

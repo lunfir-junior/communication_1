@@ -14,9 +14,14 @@ int main(int argc, char *argv[])
 
 //  IPv4Address *test = new IPv4Address("192.168.0.0");
 //  Network *net = new Network(test, 24);
+  IPv4AddressTest *ipv4addressTest = new IPv4AddressTest();
+  NetworkTest *networkTest = new NetworkTest();
 
-  QTest::qExec(new IPv4AddressTest, argc, argv);
-  QTest::qExec(new NetworkTest, argc, argv);
+  QTest::qExec(ipv4addressTest, argc, argv);
+  QTest::qExec(networkTest, argc, argv);
+
+  delete ipv4addressTest;
+  delete networkTest;
 
   a.QCoreApplication::exit();
 

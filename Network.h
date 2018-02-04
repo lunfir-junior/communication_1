@@ -14,20 +14,25 @@ class Network : public QObject
 
   public:
     explicit Network(IPv4Address *address, int maskLength, QObject *parent = nullptr);
+    Network(const Network &other);
 
     virtual ~Network();
 
     bool contains(IPv4Address *address);
-    IPv4Address getAddress();
-    IPv4Address getBroadcastAddress();
+    QString toString() const;
+    IPv4Address *getAddress() const;
+    IPv4Address *getBroadcastAddress() const;
     IPv4Address getFirstUsableAddress();
     IPv4Address getLastUsableAddress();
-    quint32 getMask();
-    QString getMaskString();
-    int getMaskLength();
-//    QVector<Network> getSubnets(); // produce two half-sized subnets
-//    long getTotalHosts(); // excluding network and broadcast
+    quint32 getMask() const;
+    QString getMaskString() const;
+    int getMaskLength() const;
+    quint32 getHost() const;
+    QVector<Network*> getSubnets(); // produce two half-sized subnets
+    long getTotalHosts(); // excluding network and broadcast
     bool isPublic();
+
+    Network& operator=(Network *other);
 
   private:
     quint32 m_prefix;

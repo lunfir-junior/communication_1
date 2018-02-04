@@ -17,11 +17,13 @@ class NetworkTest : public QObject
   private:
     Network *net_this;
     IPv4Address *address_this;
+    QVector<Network*> subnets_this;
 
   signals:
 
   private slots:
     void contains();
+    void toString();
     void getAddress();
     void getBroadcastAddress();
     void getFirstUsableAddress();
@@ -30,6 +32,8 @@ class NetworkTest : public QObject
     void getMaskString();
     void getMaskLength();
     void isPublic();
+    void getTotalHosts();
+    void getSubnets();
 };
 
 #endif // NETWORKTEST_H
