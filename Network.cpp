@@ -115,6 +115,7 @@ QVector<Network*> Network::getSubnets() // produce two half-sized subnets
   QVector<Network*> res;
 
   res.append(new Network(m_address, newMaskLen));
+  res.append(new Network( new IPv4Address(res[0]->getBroadcastAddress()->toLong() + 1), newMaskLen));
 
   return res;
 }
