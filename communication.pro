@@ -12,7 +12,7 @@ SOURCES += main.cpp \
     IPv4Address.cpp \
     Network.cpp \
     Test/IPv4AddressTest.cpp \
-    #Test/NetworkTest.cpp
+    Test/NetworkTest.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -30,4 +30,4 @@ HEADERS += \
     IllegalArgumentException.h \
     Network.h \
     Test/IPv4AddressTest.h \
-    #Test/NetworkTest.h
+    Test/NetworkTest.h
