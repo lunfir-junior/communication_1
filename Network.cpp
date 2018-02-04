@@ -4,7 +4,7 @@
 
 Network::Network(IPv4Address *address, int maskLength, QObject *parent) : QObject(parent)
 {
-  qDebug() << __PRETTY_FUNCTION__;
+//  qDebug() << __PRETTY_FUNCTION__;
   Q_UNUSED(parent);
 
   quint32 invertLen = BYTE_LEN - maskLength;
@@ -24,7 +24,7 @@ Network::Network(IPv4Address *address, int maskLength, QObject *parent) : QObjec
 
 Network::~Network()
 {
-  qDebug() << __PRETTY_FUNCTION__;
+//  qDebug() << __PRETTY_FUNCTION__;
 
   delete m_address;
   delete m_broadcast;

@@ -4,7 +4,7 @@
 
 IPv4Address::IPv4Address(QString address, QObject *parent) : QObject(parent)
 {
-  qDebug() << __PRETTY_FUNCTION__;
+//  qDebug() << __PRETTY_FUNCTION__;
   Q_UNUSED(parent);
 
   try {
@@ -24,7 +24,7 @@ IPv4Address::IPv4Address(QString address, QObject *parent) : QObject(parent)
 
 IPv4Address::IPv4Address(qlonglong address, QObject *parent) : QObject(parent)
 {
-  qDebug() << __PRETTY_FUNCTION__;
+//  qDebug() << __PRETTY_FUNCTION__;
   Q_UNUSED(parent);
 
   try {
@@ -49,7 +49,7 @@ IPv4Address::IPv4Address(const IPv4Address& other)
 
 IPv4Address::~IPv4Address()
 {
-  qDebug() << __PRETTY_FUNCTION__;
+//  qDebug() << __PRETTY_FUNCTION__;
 }
 
 bool IPv4Address::lessThan(IPv4Address *address)
