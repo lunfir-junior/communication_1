@@ -18,5 +18,7 @@ int main(int argc, char *argv[])
   QTest::qExec(new IPv4AddressTest, argc, argv);
   QTest::qExec(new NetworkTest, argc, argv);
 
-  return a.exec();
+  a.QCoreApplication::exit();
+
+  return 0;
 }
