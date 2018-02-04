@@ -7,19 +7,27 @@ Network::Network(IPv4Address *address, int maskLength, QObject *parent) : QObjec
 //  qDebug() << __PRETTY_FUNCTION__;
   Q_UNUSED(parent);
 
-  quint32 invertLen = BYTE_LEN - maskLength;
-  quint32 invertBytes = 0;
+  try {
+    if ( maskLength > 32 || maskLength < 0 )
+      throw IllegalArgumentException("mask length exception");
 
-  for ( uint i = 0; i < invertLen; i++ ) {
-    invertBytes += qPow(2, i);
+    quint32 invertLen = BYTE_LEN - maskLength;
+    quint32 invertBytes = 0;
+
+    for ( uint i = 0; i < invertLen; i++ ) {
+      invertBytes += qPow(2, i);
+    }
+
+    m_maskLen = maskLength;
+    m_prefix = UINT32_MAX - invertBytes;
+  //  qDebug() << "m_prefix: " << m_prefix;
+    m_host = ~m_prefix;
+    m_address = new IPv4Address(address->toLong() & m_prefix);
+    m_broadcast = new IPv4Address(m_address->toLong() | m_host);
   }
-
-  m_maskLen = maskLength;
-  m_prefix = UINT32_MAX - invertBytes;
-//  qDebug() << "m_prefix: " << m_prefix;
-  m_host = ~m_prefix;
-  m_address = new IPv4Address(address->toLong() & m_prefix);
-  m_broadcast = new IPv4Address(m_address->toLong() | m_host);
+  catch (IllegalArgumentException &exc) {
+    qDebug() << exc.what();
+  }
 }
 
 Network::Network(const Network &other)

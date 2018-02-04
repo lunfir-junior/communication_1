@@ -5,6 +5,7 @@
 #include <QtMath>
 #include <QDebug>
 #include "IPv4Address.h"
+#include "IllegalArgumentException.h"
 
 class IPv4Address;
 
