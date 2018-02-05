@@ -69,10 +69,18 @@ Network::~Network()
 {
 //  qDebug() << __PRETTY_FUNCTION__;
 
-  delete m_address;
-  delete m_broadcast;
-  delete m_first;
-  delete m_last;
+  if ( m_maskLen == 32 ) {
+    delete m_address;
+  } else if ( m_maskLen == 30 ) {
+    delete m_address;
+    delete m_broadcast;
+    delete m_first;
+  } else {
+    delete m_address;
+    delete m_broadcast;
+    delete m_first;
+    delete m_last;
+  }
 }
 
 bool Network::contains(IPv4Address *address)

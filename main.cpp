@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
 {
   QCoreApplication a(argc, argv);
 
-  IPv4Address *test = new IPv4Address("192.168.0.0");
-  Network *net = new Network(test, 32);
+//  IPv4Address *test = new IPv4Address("192.168.0.0");
+//  Network *net = new Network(test, 32);
   IPv4AddressTest *ipv4addressTest = new IPv4AddressTest();
   NetworkTest *networkTest = new NetworkTest();
 
@@ -28,8 +28,8 @@ int main(int argc, char *argv[])
   delete ipv4addressTest;
   delete networkTest;
 
-  delete net;
-  delete test;
+//  delete net;
+//  delete test;
 
   a.QCoreApplication::exit();
 
