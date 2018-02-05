@@ -23,8 +23,8 @@ class Network : public QObject
     QString toString() const;
     IPv4Address *getAddress() const;
     IPv4Address *getBroadcastAddress() const;
-    IPv4Address getFirstUsableAddress();
-    IPv4Address getLastUsableAddress();
+    IPv4Address *getFirstUsableAddress();
+    IPv4Address *getLastUsableAddress();
     quint32 getMask() const;
     QString getMaskString() const;
     int getMaskLength() const;
@@ -41,7 +41,8 @@ class Network : public QObject
     int m_maskLen;
     IPv4Address *m_address;
     IPv4Address *m_broadcast;
-
+    IPv4Address *m_first;
+    IPv4Address *m_last;
 
   signals:
 

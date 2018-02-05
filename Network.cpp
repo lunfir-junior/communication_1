@@ -8,7 +8,7 @@ Network::Network(IPv4Address *address, int maskLength, QObject *parent) : QObjec
   Q_UNUSED(parent);
 
   try {
-    if ( maskLength > 32 || maskLength < 0 )
+    if ( maskLength > 32 || maskLength < 0 || maskLength == 31 )
       throw IllegalArgumentException("mask length exception");
 
     quint32 invertLen = BYTE_LEN - maskLength;
@@ -20,10 +20,34 @@ Network::Network(IPv4Address *address, int maskLength, QObject *parent) : QObjec
 
     m_maskLen = maskLength;
     m_prefix = UINT32_MAX - invertBytes;
-  //  qDebug() << "m_prefix: " << m_prefix;
     m_host = ~m_prefix;
     m_address = new IPv4Address(address->toLong() & m_prefix);
-    m_broadcast = new IPv4Address(m_address->toLong() | m_host);
+
+    if ( m_maskLen == 32 ) {
+      m_broadcast = m_address;
+      m_first = m_address;
+      m_last = m_address;
+    } else if ( m_maskLen == 30 ) {
+      m_broadcast = new IPv4Address(m_address->toLong() | m_host);
+      m_first = new IPv4Address(m_address->toLong() + 1);
+      m_last = m_first;
+    } else {
+      m_broadcast = new IPv4Address(m_address->toLong() | m_host);
+      m_first = new IPv4Address(m_address->toLong() + 1);
+      m_last = new IPv4Address(m_broadcast->toLong() - 1);
+    }
+
+
+//    qDebug() << "mask length: " << m_maskLen;
+//    qDebug() << "byte len: " << BYTE_LEN;
+//    qDebug() << "max int: " << UINT32_MAX;
+//    qDebug() << "m_prefix: " << m_prefix;
+//    qDebug() << "m_host: " << m_host;
+//    qDebug() << "address: " << m_address->toString() << "   " << m_address->toLong();
+//    qDebug() << "broadcast: " << m_broadcast->toString() << "   " << m_broadcast->toLong();
+//    qDebug() << "first: " << m_first->toString();
+//    qDebug() << "last: " << m_last->toString();
+
   }
   catch (IllegalArgumentException &exc) {
     qDebug() << exc.what();
@@ -47,6 +71,8 @@ Network::~Network()
 
   delete m_address;
   delete m_broadcast;
+  delete m_first;
+  delete m_last;
 }
 
 bool Network::contains(IPv4Address *address)
@@ -74,14 +100,14 @@ IPv4Address *Network::getBroadcastAddress() const
   return m_broadcast;
 }
 
-IPv4Address Network::getFirstUsableAddress()
+IPv4Address *Network::getFirstUsableAddress()
 {
-  return IPv4Address(m_address->toLong() + 1);
+  return m_first;
 }
 
-IPv4Address Network::getLastUsableAddress()
+IPv4Address* Network::getLastUsableAddress()
 {
-  return IPv4Address(m_broadcast->toLong() - 1);
+  return m_last;
 }
 
 quint32 Network::getMask() const

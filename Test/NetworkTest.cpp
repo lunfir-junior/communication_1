@@ -48,12 +48,12 @@ void NetworkTest::getBroadcastAddress()
 
 void NetworkTest::getFirstUsableAddress()
 {
-  QCOMPARE(net_this->getFirstUsableAddress().toString(),     QString("192.168.0.1"));
+  QCOMPARE(net_this->getFirstUsableAddress()->toString(),     QString("192.168.0.1"));
 }
 
 void NetworkTest::getLastUsableAddress()
 {
-  QCOMPARE(net_this->getLastUsableAddress().toString(),    QString("192.168.0.254"));
+  QCOMPARE(net_this->getLastUsableAddress()->toString(),    QString("192.168.0.254"));
 }
 
 void NetworkTest::getMask()
@@ -85,7 +85,7 @@ void NetworkTest::getSubnets()
 {
   QCOMPARE(subnets_this[0]->toString(),                           QString("192.168.0.0/25"));
   QCOMPARE(subnets_this[0]->getAddress()->toString(),             QString("192.168.0.0"));
-  QCOMPARE(subnets_this[0]->getFirstUsableAddress().toString(),   QString("192.168.0.1"));
-  QCOMPARE(subnets_this[0]->getLastUsableAddress().toString(),    QString("192.168.0.126"));
+  QCOMPARE(subnets_this[0]->getFirstUsableAddress()->toString(),   QString("192.168.0.1"));
+  QCOMPARE(subnets_this[0]->getLastUsableAddress()->toString(),    QString("192.168.0.126"));
   QCOMPARE(subnets_this[0]->getMaskLength(),                      int(25));
 }
