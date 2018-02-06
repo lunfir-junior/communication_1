@@ -23,6 +23,7 @@ class IPv4Address : public QObject
     quint32 toLong() const;
 
     IPv4Address& operator=(IPv4Address* other);
+    bool operator==(const IPv4Address &other);
 
   private:
     quint32 m_address;

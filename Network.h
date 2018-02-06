@@ -35,6 +35,7 @@ class Network : public QObject
     bool isPublic();
 
     Network& operator=(Network *other);
+    bool operator==(const Network &other);
 
   private:
     quint32 m_prefix;

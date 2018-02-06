@@ -195,3 +195,10 @@ Network& Network::operator=(Network *other)
 
   return *this;
 }
+
+bool Network::operator==(const Network &other)
+{
+  return ( m_address->toLong() == other.getAddress()->toLong() &&
+           m_maskLen == other.getMaskLength()
+         );
+}
