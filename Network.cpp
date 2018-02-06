@@ -108,12 +108,12 @@ IPv4Address *Network::getBroadcastAddress() const
   return m_broadcast;
 }
 
-IPv4Address *Network::getFirstUsableAddress()
+IPv4Address *Network::getFirstUsableAddress() const
 {
   return m_first;
 }
 
-IPv4Address* Network::getLastUsableAddress()
+IPv4Address* Network::getLastUsableAddress() const
 {
   return m_last;
 }
@@ -164,6 +164,12 @@ QVector<Network*> Network::getSubnets() // produce two half-sized subnets
 
 long Network::getTotalHosts() // excluding network and broadcast
 {
+  if ( m_maskLen == 32 )
+    return 0;
+
+  if ( m_maskLen == 30 )
+    return 1;
+
   return (qPow(2, (32 - m_maskLen)) - 2);
 }
 

@@ -23,8 +23,8 @@ class Network : public QObject
     QString toString() const;
     IPv4Address *getAddress() const;
     IPv4Address *getBroadcastAddress() const;
-    IPv4Address *getFirstUsableAddress();
-    IPv4Address *getLastUsableAddress();
+    IPv4Address *getFirstUsableAddress() const;
+    IPv4Address *getLastUsableAddress() const;
     quint32 getMask() const;
     QString getMaskString() const;
     int getMaskLength() const;
