@@ -54,19 +54,27 @@ SOURCES       = main.cpp \
 		IPv4Address.cpp \
 		Network.cpp \
 		Test/IPv4AddressTest.cpp \
-		Test/NetworkTest.cpp moc_IPv4Address.cpp \
+		Test/NetworkTest.cpp \
+		Route.cpp \
+		Router.cpp moc_IPv4Address.cpp \
 		moc_Network.cpp \
 		moc_IPv4AddressTest.cpp \
-		moc_NetworkTest.cpp
+		moc_NetworkTest.cpp \
+		moc_Route.cpp \
+		moc_Router.cpp
 OBJECTS       = main.o \
 		IPv4Address.o \
 		Network.o \
 		IPv4AddressTest.o \
 		NetworkTest.o \
+		Route.o \
+		Router.o \
 		moc_IPv4Address.o \
 		moc_Network.o \
 		moc_IPv4AddressTest.o \
-		moc_NetworkTest.o
+		moc_NetworkTest.o \
+		moc_Route.o \
+		moc_Router.o
 DIST          = ../../Qt/5.9.1/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.9.1/gcc_64/mkspecs/common/unix.conf \
 		../../Qt/5.9.1/gcc_64/mkspecs/common/linux.conf \
@@ -232,11 +240,15 @@ DIST          = ../../Qt/5.9.1/gcc_64/mkspecs/features/spec_pre.prf \
 		IllegalArgumentException.h \
 		Network.h \
 		Test/IPv4AddressTest.h \
-		Test/NetworkTest.h main.cpp \
+		Test/NetworkTest.h \
+		Route.h \
+		Router.h main.cpp \
 		IPv4Address.cpp \
 		Network.cpp \
 		Test/IPv4AddressTest.cpp \
-		Test/NetworkTest.cpp
+		Test/NetworkTest.cpp \
+		Route.cpp \
+		Router.cpp
 QMAKE_TARGET  = communication
 DESTDIR       = 
 TARGET        = communication
@@ -592,8 +604,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../Qt/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents IPv4Address.h IllegalArgumentException.h Network.h Test/IPv4AddressTest.h Test/NetworkTest.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp IPv4Address.cpp Network.cpp Test/IPv4AddressTest.cpp Test/NetworkTest.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents IPv4Address.h IllegalArgumentException.h Network.h Test/IPv4AddressTest.h Test/NetworkTest.h Route.h Router.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp IPv4Address.cpp Network.cpp Test/IPv4AddressTest.cpp Test/NetworkTest.cpp Route.cpp Router.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -625,9 +637,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../Qt/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h ../../Qt/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_IPv4Address.cpp moc_Network.cpp moc_IPv4AddressTest.cpp moc_NetworkTest.cpp
+compiler_moc_header_make_all: moc_IPv4Address.cpp moc_Network.cpp moc_IPv4AddressTest.cpp moc_NetworkTest.cpp moc_Route.cpp moc_Router.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_IPv4Address.cpp moc_Network.cpp moc_IPv4AddressTest.cpp moc_NetworkTest.cpp
+	-$(DEL_FILE) moc_IPv4Address.cpp moc_Network.cpp moc_IPv4AddressTest.cpp moc_NetworkTest.cpp moc_Route.cpp moc_Router.cpp
 moc_IPv4Address.cpp: ../../Qt/5.9.1/gcc_64/include/QtCore/QObject \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qobject.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
@@ -749,6 +761,8 @@ moc_Network.cpp: ../../Qt/5.9.1/gcc_64/include/QtCore/QObject \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QPointer \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qpointer.h \
 		IPv4Address.h \
 		IllegalArgumentException.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/QException \
@@ -1128,10 +1142,164 @@ moc_NetworkTest.cpp: ../../Qt/5.9.1/gcc_64/include/QtCore/QObject \
 		Network.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/QtMath \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qmath.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QPointer \
 		Test/NetworkTest.h \
 		moc_predefs.h \
 		../../Qt/5.9.1/gcc_64/bin/moc
 	/home/machine/Qt/5.9.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/machine/Qt/5.9.1/gcc_64/mkspecs/linux-g++ -I/home/machine/QT_proj/communication_1 -I/home/machine/Qt/5.9.1/gcc_64/include -I/home/machine/Qt/5.9.1/gcc_64/include/QtTest -I/home/machine/Qt/5.9.1/gcc_64/include/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include Test/NetworkTest.h -o moc_NetworkTest.cpp
+
+moc_Route.cpp: ../../Qt/5.9.1/gcc_64/include/QtCore/QObject \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QDebug \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qhash.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmap.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qtextstream.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qiodevice.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qshareddata.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qvector.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qpoint.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qset.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		Network.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QtMath \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmath.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QPointer \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qpointer.h \
+		IPv4Address.h \
+		IllegalArgumentException.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QException \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qexception.h \
+		Route.h \
+		moc_predefs.h \
+		../../Qt/5.9.1/gcc_64/bin/moc
+	/home/machine/Qt/5.9.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/machine/Qt/5.9.1/gcc_64/mkspecs/linux-g++ -I/home/machine/QT_proj/communication_1 -I/home/machine/Qt/5.9.1/gcc_64/include -I/home/machine/Qt/5.9.1/gcc_64/include/QtTest -I/home/machine/Qt/5.9.1/gcc_64/include/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include Route.h -o moc_Route.cpp
+
+moc_Router.cpp: ../../Qt/5.9.1/gcc_64/include/QtCore/QObject \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		Route.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QDebug \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qhash.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmap.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qtextstream.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qiodevice.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qshareddata.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qvector.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qpoint.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qset.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		Network.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QtMath \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmath.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QPointer \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qpointer.h \
+		IPv4Address.h \
+		IllegalArgumentException.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QException \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qexception.h \
+		Router.h \
+		moc_predefs.h \
+		../../Qt/5.9.1/gcc_64/bin/moc
+	/home/machine/Qt/5.9.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/machine/Qt/5.9.1/gcc_64/mkspecs/linux-g++ -I/home/machine/QT_proj/communication_1 -I/home/machine/Qt/5.9.1/gcc_64/include -I/home/machine/Qt/5.9.1/gcc_64/include/QtTest -I/home/machine/Qt/5.9.1/gcc_64/include/QtCore -I/usr/include/c++/6 -I/usr/include/x86_64-linux-gnu/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/x86_64-linux-gnu/6/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include Router.h -o moc_Router.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1427,13 +1595,17 @@ main.o: main.cpp ../../Qt/5.9.1/gcc_64/include/QtCore/QCoreApplication \
 		../../Qt/5.9.1/gcc_64/include/QtWidgets/QSizePolicy \
 		../../Qt/5.9.1/gcc_64/include/QtCore/QMetaEnum \
 		../../Qt/5.9.1/gcc_64/include/QtTest/qttestversion.h \
+		Router.h \
+		Route.h \
+		Network.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QtMath \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QPointer \
 		IPv4Address.h \
 		IllegalArgumentException.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/QException \
-		Network.h \
-		../../Qt/5.9.1/gcc_64/include/QtCore/QtMath \
 		Test/IPv4AddressTest.h \
-		../../Qt/5.9.1/gcc_64/include/QtTest/QTest
+		../../Qt/5.9.1/gcc_64/include/QtTest/QTest \
+		Test/NetworkTest.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 IPv4Address.o: IPv4Address.cpp ../../Qt/5.9.1/gcc_64/include/QtCore/QDebug \
@@ -1571,6 +1743,8 @@ Network.o: Network.cpp Network.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QPointer \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qpointer.h \
 		IPv4Address.h \
 		IllegalArgumentException.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/QException \
@@ -1945,8 +2119,158 @@ NetworkTest.o: Test/NetworkTest.cpp Test/NetworkTest.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qexception.h \
 		Network.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/QtMath \
-		../../Qt/5.9.1/gcc_64/include/QtCore/qmath.h
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmath.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QPointer
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o NetworkTest.o Test/NetworkTest.cpp
+
+Route.o: Route.cpp Route.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QObject \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QDebug \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qhash.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmap.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qtextstream.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qiodevice.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qshareddata.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qvector.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qpoint.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qset.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		Network.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QtMath \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmath.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QPointer \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qpointer.h \
+		IPv4Address.h \
+		IllegalArgumentException.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QException \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qexception.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Route.o Route.cpp
+
+Router.o: Router.cpp Router.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QObject \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		Route.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QDebug \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qhash.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmap.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qtextstream.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qiodevice.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qshareddata.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qvector.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qpoint.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qset.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		Network.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QtMath \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qmath.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QPointer \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qpointer.h \
+		IPv4Address.h \
+		IllegalArgumentException.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QException \
+		../../Qt/5.9.1/gcc_64/include/QtCore/qexception.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Router.o Router.cpp
 
 moc_IPv4Address.o: moc_IPv4Address.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_IPv4Address.o moc_IPv4Address.cpp
@@ -1959,6 +2283,12 @@ moc_IPv4AddressTest.o: moc_IPv4AddressTest.cpp
 
 moc_NetworkTest.o: moc_NetworkTest.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_NetworkTest.o moc_NetworkTest.cpp
+
+moc_Route.o: moc_Route.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Route.o moc_Route.cpp
+
+moc_Router.o: moc_Router.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Router.o moc_Router.cpp
 
 ####### Install
 

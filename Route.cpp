@@ -77,3 +77,12 @@ Route& Route::operator=(Route *other)
 
   return *this;
 }
+
+bool Route::operator==(const Route &other)
+{
+  return ( m_network == other.getNetwork() &&
+           m_gateway == other.getGateway() &&
+           m_interfaceName == other.getInterfaceName() &&
+           m_metric == other.getMetric()
+         );
+}

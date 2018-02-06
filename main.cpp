@@ -2,8 +2,9 @@
 #include <QDebug>
 #include <QtTest>
 
-#include "IPv4Address.h"
-#include "Network.h"
+//#include "IPv4Address.h"
+//#include "Network.h"
+#include <Router.h>
 
 #include "Test/IPv4AddressTest.h"
 #include "Test/NetworkTest.h"
@@ -12,10 +13,18 @@ int main(int argc, char *argv[])
 {
   QCoreApplication a(argc, argv);
 
-//  IPv4Address *test = new IPv4Address("192.168.0.0");
-//  Network *net = new Network(test, 32);
+  IPv4Address *test = new IPv4Address("192.168.0.0");
+  Network *net = new Network(test, 32);
   IPv4AddressTest *ipv4addressTest = new IPv4AddressTest();
   NetworkTest *networkTest = new NetworkTest();
+
+
+//  IPv4Address *test_1 = new IPv4Address("192.168.0.0");
+//    Network *net_1 = new Network(test_1, 32);
+//  qDebug() << (*net == *net_1);
+
+//  qDebug() << "total hosts: " << net->getTotalHosts();
+//  qDebug() << "is public: " << net->isPublic();
 
 //  qDebug() << net->getAddress()->toString();
 //  qDebug() << net->getFirstUsableAddress()->toString();
@@ -28,8 +37,8 @@ int main(int argc, char *argv[])
   delete ipv4addressTest;
   delete networkTest;
 
-//  delete net;
-//  delete test;
+  delete net;
+  delete test;
 
   a.QCoreApplication::exit();
 

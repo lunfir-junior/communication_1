@@ -27,6 +27,7 @@ class Route : public QObject
     QString toString() const;
 
     Route& operator=(Route *other);
+    bool operator==(const Route &other);
 
   private:
     Network *m_network;
