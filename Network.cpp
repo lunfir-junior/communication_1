@@ -175,9 +175,14 @@ long Network::getTotalHosts() // excluding network and broadcast
 
 bool Network::isPublic()
 {
-  return ( (m_address->toString() == "10.0.0.0" && m_maskLen == 8) ||
-           (m_address->toString() == "172.16.0.0" && m_maskLen == 12) ||
-           (m_address->toString() == "192.168.0.0" && m_maskLen == 16));
+  QPointer<IPv4Address> fir(new IPv4Address("10.0.0.0"));
+  QPointer<IPv4Address> sec(new IPv4Address("172.16.0.0"));
+  QPointer<IPv4Address> thi(new IPv4Address("192.168.0.0"));
+
+  return !( this->contains(fir) ||
+            this->contains(sec) ||
+            this->contains(thi)
+          );
 }
 
 Network& Network::operator=(Network *other)

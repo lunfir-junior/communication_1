@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QtMath>
 #include <QDebug>
+#include <QPointer>
 #include "IPv4Address.h"
 #include "IllegalArgumentException.h"
 
