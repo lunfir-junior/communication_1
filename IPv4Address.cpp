@@ -103,6 +103,11 @@ bool IPv4Address::operator==(const IPv4Address &other)
   return this->m_address == other.toLong();
 }
 
+bool IPv4Address::operator!=(const IPv4Address &other)
+{
+  return this->m_address != other.toLong();
+}
+
 void IPv4Address::stringValidate(QString &addr)
 {
   QStringList tmp;

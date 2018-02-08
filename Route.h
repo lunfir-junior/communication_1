@@ -28,6 +28,7 @@ class Route : public QObject
 
     Route& operator=(Route *other);
     bool operator==(const Route &other);
+    bool operator!=(const Route &other);
 
   private:
     Network *m_network;

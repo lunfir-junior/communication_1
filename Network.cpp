@@ -202,3 +202,10 @@ bool Network::operator==(const Network &other)
            m_maskLen == other.getMaskLength()
          );
 }
+
+bool Network::operator!=(const Network &other)
+{
+  return ( m_address->toLong() != other.getAddress()->toLong() ||
+           m_maskLen != other.getMaskLength()
+         );
+}

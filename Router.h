@@ -21,6 +21,8 @@ public:
 private:
   QList<Route*> m_routes;
 
+  static bool cmp(Route *first, Route *second);
+
 signals:
 
 public slots:

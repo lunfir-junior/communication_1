@@ -6,6 +6,13 @@ Router::Router(QList<Route*> routes, QObject *parent) : QObject(parent)
 
   m_routes.clear();
   m_routes.append(routes);
+
+  std::stable_sort(m_routes.begin(), m_routes.end(), cmp);
+}
+
+bool Router::cmp(Route *first, Route *second)
+{
+  return ( first->getGateway()->toLong() < second->getGateway()->toLong() );
 }
 
 Router::~Router()
@@ -16,6 +23,12 @@ Router::~Router()
 
 void Router::addRoute(Route *route)
 {
+  int len = m_routes.length();
+  int i;
+
+  for ( i = 0; i < len && cmp(m_routes[i], route); i++ );
+
+  m_routes.insert((i-1), route);
 
 }
 
