@@ -1,6 +1,6 @@
 #include "Router.h"
 
-Router::Router(QList<Route*> routes, QObject *parent) : QObject(parent)
+Router::Router(QList<Route*> &routes, QObject *parent) : QObject(parent)
 {
   Q_UNUSED(parent);
 
@@ -12,7 +12,7 @@ Router::Router(QList<Route*> routes, QObject *parent) : QObject(parent)
 
 bool Router::cmp(Route *first, Route *second)
 {
-  return ( first->getGateway()->toLong() < second->getGateway()->toLong() );
+  return ( first->getNetwork()->getAddress()->toLong() < second->getNetwork()->getAddress()->toLong() );
 }
 
 Router::~Router()
@@ -37,9 +37,16 @@ Route* Router::getRouteForAddress(IPv4Address *address)
   int len = m_routes.length();
   int i;
 
-  for ( i = 0; m_routes[i]->getGateway()->toLong() != address->toLong() && i < len; i++ );
+  try {
+    for (i = 0; !m_routes[i]->getNetwork()->contains(address) && i < len; i++ );
 
-  return m_routes[i]; // in all cases
+    if ( i >= len )
+      throw IllegalArgumentException("network exception");
+
+  } catch (IllegalArgumentException &exc) {
+    qDebug() << exc.what();
+  }
+  return m_routes[i];
 }
 
 QList<Route*> Router::getRoutes()
@@ -54,4 +61,32 @@ void Router::removeRoute(Route *route)
   for (iter = m_routes.begin(); **iter != *route && iter != m_routes.end(); iter++);
 
   m_routes.erase(iter);
+}
+
+QString Router::toString()
+{
+  QString out;
+  int len = m_routes.length();
+
+  for ( int i = 0; i < len; i++ ) {
+    Route *current = m_routes.at(i);
+
+    out.append("net: ");
+    out.append(current->getNetwork()->getAddress()->toString());
+
+    if ( current->getGateway() != nullptr ) {
+      out.append(", gateway: ");
+      out.append(current->getGateway()->toString());
+    }
+
+    out.append(", interface: ");
+    out.append(current->getInterfaceName());
+    out.append(", metric: ");
+    out.append(QString::number(current->getMetric()));
+    out.append(QString("/n"));
+  }
+
+//net: 192.168.0.0/24, interface: en0, metric: 10
+//net: 0.0.0.0/0, gateway: 192.168.0.1, interface: en0, metric: 10
+  return out;
 }
