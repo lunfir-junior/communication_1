@@ -12,7 +12,8 @@ Router::Router(QList<Route*> &routes, QObject *parent) : QObject(parent)
 
 bool Router::cmp(Route *first, Route *second)
 {
-  return ( first->getNetwork()->getAddress()->toLong() < second->getNetwork()->getAddress()->toLong() );
+  return ( first->getMetric() < second->getMetric() );
+//  return ( first->getNetwork()->getAddress()->toLong() < second->getNetwork()->getAddress()->toLong() );
 }
 
 Router::~Router()
