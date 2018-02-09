@@ -66,27 +66,14 @@ void Router::removeRoute(Route *route)
 QString Router::toString()
 {
   QString out;
-  int len = m_routes.length();
+  int lim = m_routes.length() - 1;
 
-  for ( int i = 0; i < len; i++ ) {
-    Route *current = m_routes.at(i);
-
-    out.append("net: ");
-    out.append(current->getNetwork()->getAddress()->toString());
-
-    if ( current->getGateway() != nullptr ) {
-      out.append(", gateway: ");
-      out.append(current->getGateway()->toString());
-    }
-
-    out.append(", interface: ");
-    out.append(current->getInterfaceName());
-    out.append(", metric: ");
-    out.append(QString::number(current->getMetric()));
-    out.append(QString("/n"));
+  for ( int i = 0; i < lim; i++ ) {
+    out.append(m_routes.at(i)->toString());
+    out.append("\n");
   }
 
-//net: 192.168.0.0/24, interface: en0, metric: 10
-//net: 0.0.0.0/0, gateway: 192.168.0.1, interface: en0, metric: 10
+  out.append(m_routes.at(lim)->toString());
+
   return out;
 }

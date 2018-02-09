@@ -31,10 +31,10 @@ int main(int argc, char *argv[])
 
   Router *router = new Router(routes);
   router->addRoute(new Route(new Network(new IPv4Address("10.123.0.0"), 20), nullptr, QString("en1"), 10));
-  qDebug() << "router->getRoutes(): " << router->getRoutes();
+//  qDebug() << "router->getRoutes(): " << router->getRoutes();
 //  Route *route = router->getRouteForAddress(new IPv4Address("192.168.0.176"));
 
-  qDebug() << router->toString();
+  qDebug().noquote() << router->toString();
 //  qDebug() << route->getMetric(); //10
 //  qDebug() << route->getInterfaceName(); // en0
 //  Network *testNet = route->getNetwork();

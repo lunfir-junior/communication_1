@@ -62,9 +62,8 @@ QString Route::toString() const
   res.append(", interface: ");
   res.append(m_interfaceName);
   res.append(", metric: ");
-  res.append(m_metric);
-//net: 192.168.0.0/24, interface: en0, metric: 10
-//net: 0.0.0.0/0, gateway: 192.168.0.1, interface: en0, metric: 10
+  res.append(QString::number(m_metric));
+
   return res;
 }
 
