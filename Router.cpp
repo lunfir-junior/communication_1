@@ -12,7 +12,8 @@ Router::Router(QList<Route*> &routes, QObject *parent) : QObject(parent)
 
 bool Router::cmp(Route *first, Route *second)
 {
-  return ( first->getNetwork()->getAddress()->toLong() < second->getNetwork()->getAddress()->toLong() );
+  return ( first->getMetric() < second->getMetric() );
+//  return ( first->getNetwork()->getAddress()->toLong() < second->getNetwork()->getAddress()->toLong() );
 }
 
 Router::~Router()
@@ -66,25 +67,14 @@ void Router::removeRoute(Route *route)
 QString Router::toString()
 {
   QString out;
-  int len = m_routes.length();
+  int lim = m_routes.length() - 1;
 
-  for ( int i = 0; i < len; i++ ) {
-    Route *current = m_routes.at(i);
-
-    out = "net: " % current->getNetwork()->getAddress()->toString();
-//    out.append();
-
-    if ( current->getGateway() != nullptr )
-      out %= ", gateway: " % current->getGateway()->toString();
-
-    out += ", interface: " + current->getInterfaceName() + ", metric: ";
-//    out.append();
-//    out.append();
-    out.append(QString::number(current->getMetric()));
-    out.append(QChar('/0'));
+  for ( int i = 0; i < lim; i++ ) {
+    out.append(m_routes.at(i)->toString());
+    out.append("\n");
   }
 
-//net: 192.168.0.0/24, interface: en0, metric: 10
-//net: 0.0.0.0/0, gateway: 192.168.0.1, interface: en0, metric: 10
+  out.append(m_routes.at(lim)->toString());
+
   return out;
 }

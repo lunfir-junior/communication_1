@@ -1271,6 +1271,7 @@ moc_Router.cpp: ../../Qt/5.9.1/gcc_64/include/QtCore/QObject \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QList \
 		Route.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/QDebug \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qdebug.h \
@@ -2245,6 +2246,7 @@ Router.o: Router.cpp Router.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.9.1/gcc_64/include/QtCore/QList \
 		Route.h \
 		../../Qt/5.9.1/gcc_64/include/QtCore/QDebug \
 		../../Qt/5.9.1/gcc_64/include/QtCore/qdebug.h \
