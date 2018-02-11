@@ -6,7 +6,12 @@ Route::Route(Network *network, IPv4Address *gateway, QString interfaceName, int 
   Q_UNUSED(parent);
 
   m_network = network;
-  m_gateway = gateway;
+
+  if ( gateway == nullptr )
+    m_gateway = nullptr;
+  else
+    m_gateway = gateway;
+
   m_interfaceName = interfaceName;
   m_metric = metric;
 }
@@ -24,7 +29,9 @@ Route::Route(const Route &other)
 Route::~Route()
 {
   delete m_network;
-  delete m_gateway;
+
+  if ( m_gateway != nullptr )
+    delete m_gateway;
 }
 
 IPv4Address* Route::getGateway() const

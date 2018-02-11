@@ -3,7 +3,6 @@
 IPv4AddressTest::IPv4AddressTest(QObject *parent) : QObject(parent)
 {
   ip_this = new IPv4Address(2131504406);
-
 }
 
 IPv4AddressTest::~IPv4AddressTest()

@@ -85,8 +85,11 @@ Network::~Network()
 
 bool Network::contains(IPv4Address *address)
 {
-  return ( (address->toLong() >= m_address->toLong()) &&
-           (address->toLong() <= m_broadcast->toLong()) );
+  quint32 tmp = address->toLong();
+
+  return ( (tmp <= m_broadcast->toLong()) &&
+           (tmp >= m_address->toLong())
+         );
 }
 
 QString Network::toString() const
