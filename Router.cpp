@@ -71,19 +71,17 @@ QString Router::toString()
   for ( int i = 0; i < len; i++ ) {
     Route *current = m_routes.at(i);
 
-    out.append("net: ");
-    out.append(current->getNetwork()->getAddress()->toString());
+    out = "net: " % current->getNetwork()->getAddress()->toString();
+//    out.append();
 
-    if ( current->getGateway() != nullptr ) {
-      out.append(", gateway: ");
-      out.append(current->getGateway()->toString());
-    }
+    if ( current->getGateway() != nullptr )
+      out %= ", gateway: " % current->getGateway()->toString();
 
-    out.append(", interface: ");
-    out.append(current->getInterfaceName());
-    out.append(", metric: ");
+    out += ", interface: " + current->getInterfaceName() + ", metric: ";
+//    out.append();
+//    out.append();
     out.append(QString::number(current->getMetric()));
-    out.append(QString("/n"));
+    out.append(QChar('/0'));
   }
 
 //net: 192.168.0.0/24, interface: en0, metric: 10
