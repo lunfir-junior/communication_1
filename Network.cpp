@@ -178,14 +178,36 @@ long Network::getTotalHosts() // excluding network and broadcast
 
 bool Network::isPublic()
 {
-  QPointer<IPv4Address> fir(new IPv4Address("10.0.0.0"));
-  QPointer<IPv4Address> sec(new IPv4Address("172.16.0.0"));
-  QPointer<IPv4Address> thi(new IPv4Address("192.168.0.0"));
+  QList<IPv4Address*> addressList;
+  QList<Network*> networkList;
+  bool out = true;
+  int len;
 
-  return !( this->contains(fir) ||
-            this->contains(sec) ||
-            this->contains(thi)
-          );
+  addressList.push_back(new IPv4Address("10.0.0.0"));
+  addressList.push_back(new IPv4Address("172.16.0.0"));
+  addressList.push_back(new IPv4Address("192.168.0.0"));
+
+  networkList.push_back(new Network(addressList.at(0), 8));
+  networkList.push_back(new Network(addressList.at(1), 12));
+  networkList.push_back(new Network(addressList.at(2), 16));
+
+  len = networkList.length();
+
+  for ( int i = 0; i < len; i++ ) {
+    if ( networkList.at(i)->contains(this->getAddress()) ) {
+      out = false;
+
+      qDeleteAll(addressList);
+      qDeleteAll(networkList);
+
+      return out;
+    }
+  }
+
+  qDeleteAll(addressList);
+  qDeleteAll(networkList);
+
+  return out;
 }
 
 Network& Network::operator=(Network *other)
