@@ -12,8 +12,8 @@ Router::Router(QList<Route*> &routes, QObject *parent) : QObject(parent)
 
 bool Router::cmp(Route *first, Route *second)
 {
-//  return ( first->getMetric() < second->getMetric() );
-  return ( first->getNetwork()->getAddress()->toLong() < second->getNetwork()->getAddress()->toLong() );
+  return ( first->getMetric() < second->getMetric() );
+//  return ( first->getNetwork()->getAddress()->toLong() < second->getNetwork()->getAddress()->toLong() );
 }
 
 Router::~Router()
@@ -35,18 +35,13 @@ void Router::addRoute(Route *route)
 Route* Router::getRouteForAddress(IPv4Address *address)
 {
   int len = m_routes.length();
-  int i;
 
-  try {
-    for (i = 1; i < len && !(m_routes[i]->getNetwork()->contains(address)); i++ );
+  for ( int i = 0; i < len; i++ ) {
+    if ( !(m_routes[i]->getNetwork()->isPublic()) && m_routes[i]->getNetwork()->contains(address) )
+      return m_routes[i];
+  };
 
-    if ( i >= len )
-      throw IllegalArgumentException("network exception");
-
-  } catch (IllegalArgumentException &exc) {
-    qDebug() << exc.what();
-  }
-  return m_routes[i];
+  return m_routes[0];
 }
 
 QList<Route*> Router::getRoutes()
